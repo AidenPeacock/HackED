@@ -11,15 +11,38 @@ def urlgen(num, meal):
     end = ' id="mntl-card-list-items_2-0'
     realresult = results.split(start)[1].split(end)[0]
     return(str(realresult))
-x = urlgen(12, "lunch")
+    
+
+x = urlgen(31, "dinner")
 c = x.replace('"', '')
-print(c)
 URL = c
 page = requests.get(URL)
 soup = BeautifulSoup(page.content, "html.parser")
-results = soup.find(id="section--ingredients_1-0")
-ingredients = str(results.find_all("span"))
-c = re.sub('<[^>]+>', '', ingredients)
-c1 = c.replace(",", "")
-print(c1)
+
+
+
+def recepiegen():
+    results = soup.find(id="mntl-sc-block_3-0")
+    job_elements = str(results.find_all("p", class_="comp mntl-sc-block mntl-sc-block-html"))
+    x = re.sub('<[^>]+>', '', job_elements)
+    return x
+
+def ingredientsgen():
+    results = soup.find(id="section--ingredients_1-0")
+    ingredients = str(results.find_all("span"))
+    c = re.sub('<[^>]+>', '', ingredients)
+    c1 = c.replace(",", "")
+    c1.split()
+    return c1
+    
+x = ingredientsgen()
+y = recepiegen()
+
+text_file = open("recipie.txt", "w")
+ 
+
+text_file.write(x+y)
+
+text_file.close()
+
 
